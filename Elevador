@@ -50,8 +50,10 @@ void Elevador::mover_elevador(int piso, int pasajeros) {
         cout << endl << "El elevador ya se encuentra en el piso solicitado." << endl;
         tiempo_espera(3);
     }
-    else
+    else {
         cout << endl << "El piso no esta disponible." << endl;
+        tiempo_espera(3);
+    }
 }
 
 //genera una pausa de acuerdo a un valor ingresado
@@ -71,7 +73,7 @@ void dibujar_edificio(int piso_actual, int pasajeros, int solicitud) {
     }
     system("cls");
     Edificio[piso_actual][4] = 32;
-    cout << "\t*** Simulacion de un elevador con POO ***" << endl << endl << "\t\t ";
+    cout << "\t*** Simulacion de un elevador con POO ***\n" << endl << endl << "\t\t ";
     for(i = 0; i < 5; i++) {
         cout <<  Edificio[5][5];
     }
@@ -81,13 +83,16 @@ void dibujar_edificio(int piso_actual, int pasajeros, int solicitud) {
         for(j = 7; j > 0; j--) {
             cout << Edificio[i][j];
             if(i == 8 && j == 1) {
-                cout << "\tSolicitud del cliente en el piso: " << solicitud;
+                cout << "\tPasajeros en el elevador: " << pasajeros;
             }
         }
         cout << endl;
     }
-    cout << endl << "\t\tPasajeros: " << pasajeros << endl;
-    cout << "\a\t\tPiso Actual: " << piso_actual << endl << endl;
+    cout << endl << "\a\t\tPiso Actual: " << piso_actual << endl << endl;
+    if(solicitud > piso_actual)
+        cout << "\t\tSubiendo...";
+    else if(solicitud < piso_actual)
+        cout << "\t\tBajando...";
 }
 
 //funcion principal
@@ -100,8 +105,10 @@ int main() {
     //ciclo principal, solicitar y mover
     do {
         system("cls");
-        cout << "\t*** Simulacion de un elevador con POO ***" << endl << endl;
-        cout << "\nIngrese el numero de pasajeros: ";
+        cout << "\t*** Simulacion de un elevador con POO ***\n" << endl << endl;
+        cout << ">> El elevador solo admite 12 pasajeros." << endl;
+        cout << ">> Marque el piso 0 para terminar la simulacion." << endl << endl;
+        cout << "Ingrese el numero de pasajeros: ";
         cin >> numero_pasajeros;
         if(numero_pasajeros > 12) {
             cout << "Algo o alguien esta obstruyendo la puerta del elevador." << endl;
