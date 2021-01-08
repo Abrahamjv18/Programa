@@ -1,0 +1,129 @@
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
+
+void tiempo_espera(int tiempo);
+void dibujar_edificio(int piso_actual, int pasajeros, int solicitud);
+
+const int PRIMER_PISO = 1;
+const int ULTIMO_PISO = 15;
+
+//clase elevador
+class Elevador {
+    private:
+        int pisoActual;
+    public:
+        Elevador(int piso);
+        void mover_elevador(int piso, int pasajeros);
+};
+
+Elevador::Elevador(int piso) {
+    pisoActual = piso;
+}
+
+//funcion para mover el elevador
+void Elevador::mover_elevador(int piso, int pasajeros) {
+    if(piso > pisoActual && piso <= ULTIMO_PISO) {
+        do {
+            ++pisoActual;
+            //se llama a la funcion dibujar 
+            dibujar_edificio(pisoActual, pasajeros, piso);
+            tiempo_espera(3);
+        }
+        while(pisoActual < piso);
+        cout << "*** El elevador cumplio la solicitud satisfactoriamente ***" << endl;
+        tiempo_espera(5);
+    }
+    else if(piso < pisoActual && piso >= PRIMER_PISO) {
+        do {
+            --pisoActual;
+            //se llama a la funcion dibujar
+            dibujar_edificio(pisoActual, pasajeros, piso);
+            tiempo_espera(3);
+        }
+        while(pisoActual > piso);
+        cout << "*** El elevador cumplio la solicitud satisfactoriamente ***" << endl;
+        tiempo_espera(5);
+    }
+    else if(piso == pisoActual) {
+        cout << endl << "El elevador ya se encuentra en el piso solicitado." << endl;
+        tiempo_espera(3);
+    }
+    else
+        cout << endl << "El piso no esta disponible." << endl;
+}
+
+//genera una pausa de acuerdo a un valor ingresado
+void tiempo_espera(int tiempo) {
+    for(long i = 0; i < tiempo * 100000000; i++);
+}
+
+//dibuja la matriz que corresponde al edificio y actualiza el dibujo para mostrar el piso actual
+void dibujar_edificio(int piso_actual, int pasajeros, int solicitud) {
+    char Edificio[18][8];
+    int i, j;
+
+    for(i = 0; i < 17; i++) {
+        for(j = 0; j < 8; j++) {
+            Edificio[i][j] = 177;
+        }
+    }
+    system("cls");
+    Edificio[piso_actual][4] = 32;
+    cout << "\t*** Simulacion de un elevador con POO ***" << endl << endl << "\t\t ";
+    for(i = 0; i < 5; i++) {
+        cout <<  Edificio[5][5];
+    }
+    cout << endl;
+    for(i = 15; i > 0; i--) {
+        cout << "\t\t";
+        for(j = 7; j > 0; j--) {
+            cout << Edificio[i][j];
+            if(i == 8 && j == 1) {
+                cout << "\tSolicitud del cliente en el piso: " << solicitud;
+            }
+        }
+        cout << endl;
+    }
+    cout << endl << "\t\tPasajeros: " << pasajeros << endl;
+    cout << "\a\t\tPiso Actual: " << piso_actual << endl << endl;
+}
+
+//funcion principal
+int main() {
+    int numero_pasajeros, solicitado = 1;
+    
+    //se crea objeto
+    Elevador Elevador1 = Elevador(solicitado);
+
+    //ciclo principal, solicitar y mover
+    do {
+        system("cls");
+        cout << "\t*** Simulacion de un elevador con POO ***" << endl << endl;
+        cout << "\nIngrese el numero de pasajeros: ";
+        cin >> numero_pasajeros;
+        if(numero_pasajeros > 12) {
+            cout << "Algo o alguien esta obstruyendo la puerta del elevador." << endl;
+            system("pause");
+            continue;
+        }
+        else if(numero_pasajeros <= 0) {
+            cout << "No se encuentran pasajeros en el elevador." << endl;
+            system("pause");
+            continue;
+        }
+        cout << "Indique el piso al que desea acceder: ";
+        cin >> solicitado;
+        if(solicitado == 0)
+            continue;
+        Elevador1.mover_elevador(solicitado, numero_pasajeros);
+        system("pause");
+    }
+    while(solicitado != 0);
+    cout << endl << "Simulacion Terminada" << endl;
+    system("pause");
+    
+    return 0;
+}
+
